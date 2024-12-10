@@ -6,38 +6,35 @@ import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { useState } from "react";
 import Link from "next/link";
+import uploadImage from "@/utils/uploadImage.mjs";
 
-// Define the Zod schema for form validation
+
+
 const registerSchema = z.object({
-  name: z
-    .string()
-    .min(3, 'Name must be at least 3 characters long')
-    .max(50, 'Name must be at most 50 characters long'),
-  
-  email: z
-    .string()
-    .email('Invalid email address'),
-  
-  password: z
-    .string()
-    .min(6, 'Password must be at least 6 characters long'),
-  
-  confirmPassword: z
-    .string()
-    .min(6, 'Confirm Password must be at least 6 characters long'),
-})
-  .refine((data) => data.password === data.confirmPassword, {
-    path: ['confirmPassword'],
-    message: 'Passwords must match',
-  })
-  .extend({
+    name: z
+        .string()
+        .min(3, 'Name must be at least 3 characters long')
+        .max(50, 'Name must be at most 50 characters long'),
+
+    email: z
+        .string()
+        .email('Invalid email address'),
     photoUrl: z
-      .any()  // Allow any value
-      .refine((file) => file instanceof File, {
-        message: 'Please select a valid file',
-      })
-      .optional(),
-  });
+        .any()
+        .optional(),
+    password: z
+        .string()
+        .min(6, 'Password must be at least 6 characters long'),
+
+    confirmPassword: z
+        .string()
+        .min(6, 'Confirm Password must be at least 6 characters long'),
+})
+    .refine((data) => data.password === data.confirmPassword, {
+        path: ['confirmPassword'],
+        message: 'Passwords must match',
+    })
+
 
 const SignUpForm = () => {
     const [loading, setLoading] = useState(false);
@@ -51,48 +48,59 @@ const SignUpForm = () => {
     });
     const router = useRouter();
 
-    const handleFileUpload = async (file) => {
-        if (!file) return null;
-
-        const formData = new FormData();
-        formData.append("image", file);
-
-        try {
-            setLoading(true);
-            const apiKey = process.env.IMGBB_API_KEY
-            const response = await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`, {
-                method: "POST",
-                body: formData,
-            });
-            const data = await response.json();
-            setLoading(false);
-
-            if (data?.status === 200) {
-                return data?.data?.url;
-            } else {
-                toast.error("Failed to upload image", {
-                    position: "top-center",
-                    autoClose: 5000
-                });
-            }
-        } catch (error) {
-            setLoading(false);
-            toast.error("An error occurred during image upload", {
+    const checkEmailAvailability = async (email) => {
+        const res = await fetch("/api/posts/check-email-availability", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ email: email }),
+            credentials: 'include'
+        })
+        const data = await res.json();
+        if (!data.emailAvailable) {
+            toast.error(data.message, {
                 position: "top-center",
-                autoClose: 5000
+                autoClose: 1500,
             });
         }
-    };
+        return data.emailAvailable;
+    }
 
     const onSubmit = async (data) => {
+        const isEmailAvailable = await checkEmailAvailability(data?.email);
+        if (!isEmailAvailable) return;
         const file = data.photoUrl ? data.photoUrl[0] : null;
-        console.log(data)
-        if (file) {
-            // const photoUrl = await handleFileUpload(file);
-            // data.photoUrl = photoUrl || "";
+        if (!file) {
+            return toast.error('Select Image File', {
+                position: "top-center",
+                autoClose: 1500,
+            });
         }
-        console.log(data)
-return
+        if (file) {
+            const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+            if (!allowedTypes.includes(file.type)) {
+                toast.error('Please upload a valid image file (JPEG, JPG, PNG)', {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
+                return;
+            }
+            const maxFileSize = 2 * 1024 * 1024;
+
+            if (file.size > maxFileSize) {
+                toast.error('File size must be less than 2MB', {
+                    position: "top-center",
+                    autoClose: 5000,
+                });
+                return;
+            }
+            setLoading(true);
+            const photoUrl = await uploadImage(file);
+            if (photoUrl) {
+                data.photoUrl = photoUrl;
+            }
+        }
         const res = await fetch('/api/posts/signup', {
             method: "POST",
             headers: {
@@ -101,10 +109,10 @@ return
             body: JSON.stringify(data),
         });
         const response = await res.json();
-        console.log(response)
+        setLoading(false)
         if (response.status === 200) {
             toast.success(`${response?.message}`, {
-                position: "top-right",
+                position: "top-center",
                 autoClose: 1500
             });
             router.replace('/login');
@@ -115,7 +123,6 @@ return
             });
         }
     };
-
     return (
         <div className="min-h-screen flex justify-center items-center bg-gray-100">
             <div className="w-full sm:w-96 p-6 shadow-lg rounded-lg bg-white">
@@ -167,7 +174,10 @@ return
                             {...register('photoUrl')}
                             className="mt-1 w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
-                        
+
+                        {errors.photoUrl && (
+                            <p className="text-sm text-red-500 mt-1">{errors.photoUrl.message}</p>
+                        )}
                     </div>
 
                     {/* Password Input */}

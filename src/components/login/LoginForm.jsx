@@ -39,7 +39,7 @@ const LoginForm = ({ redirectTo }) => {
             body: JSON.stringify(data)
         });
         const response = await res.json();
-        console.log(response)
+
         if (response.status === 200) {
             toast.success(`${response?.message}`, {
                 position: "top-right",

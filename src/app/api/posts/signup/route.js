@@ -9,31 +9,18 @@ import dbConnect from "@/services/dbConnect.mjs";
 export const POST = async (req) => {
   try {
     const body = await req.json();
-    const { username, email, password, name } = body;
+    const { email, password, name, photoUrl } = body;
     const db = await dbConnect();
     const userCollection = await db.collection("users");
-
-    const existingUser = await userCollection.findOne(
-      { email },
-      {
-        projection: {
-          _id: 1,
-        },
-      }
-    );
-
-    if (existingUser) {
-      return invalidCredentialsResponse("Email already exists.");
-    }
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = {
-      username,
-      email,
-      password: hashedPassword,
       name,
-      role: "user", 
-      status: "active", 
+      email,
+      photoUrl,
+      password: hashedPassword,
+      role: "user",
+      status: "active",
       createdAt: new Date(),
     };
     const result = await userCollection.insertOne(newUser);
@@ -42,7 +29,7 @@ export const POST = async (req) => {
     }
 
     return successResponse(
-      { id: result.insertedId, username, email, name },
+      { id: result.insertedId, email, name },
       "Signup successful."
     );
   } catch (e) {

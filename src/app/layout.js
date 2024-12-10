@@ -35,7 +35,6 @@ export default async function RootLayout({ children }) {
   store.dispatch(setUserData(userData));
   store.dispatch(setTheme(storedTheme));
   const initialReduxState = store.getState();
-  console.log(userData)
   return (
     <StoreProvider initialReduxState={initialReduxState}>
       <ThemeProvider>

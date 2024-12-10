@@ -43,12 +43,11 @@ export const POST = async (req) => {
     const secret = new TextEncoder().encode(process.env.JWT_ENCRYPTION_KEY);
     const token = await new SignJWT({
       sub: user._id,
-      username: user.username,
+      name: user.name,
       email: user.email,
       status: user.status,
-      photoUrl: user.photoUrl,
-      name: user.name,
       role: user.role,
+      photoUrl: user.photoUrl,
     })
       .setProtectedHeader({ alg: "HS256" })
       .setIssuedAt()

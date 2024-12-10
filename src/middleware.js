@@ -37,7 +37,7 @@ export async function middleware(request) {
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|api/posts/login|api/posts/signup).*)",
+    "/((?!_next/static|_next/image|favicon.ico|api/posts/login|api/posts/signup|api/posts/check-email-availability).*)",
     /*
      * Match all request paths except for the ones starting with:
      * - api (API routes)
