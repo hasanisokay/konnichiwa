@@ -26,7 +26,7 @@ const manaeUsersPage = async ({searchParams}) => {
       return (
         <>
           <ManageUsers u={users} />
-          {totalPages > page &&  <PaginationDefault p={page} totalPages={totalPages}/>}
+          {totalCount > limit &&  <PaginationDefault p={page} totalPages={totalPages}/>}
         </>
       );
 };

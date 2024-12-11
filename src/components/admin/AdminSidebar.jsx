@@ -15,6 +15,8 @@ const AdminSidebar = () => {
         { href: '/admin/lessons', label: 'Lessons' },
         { href: '/admin/add-vocabulary', label: 'Add Vocabulary' },
         { href: '/admin/vocabulary-management', label: 'Vocabularies' },
+        { href: '/admin/add-tutorial', label: 'Add Tutorial' },
+        { href: '/admin/tutorials', label: 'Tutorials' },
     ];
 
     return (

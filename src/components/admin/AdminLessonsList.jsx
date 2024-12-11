@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 
 const AdminLessonsList = ({ lessons: l }) => {
@@ -9,7 +9,9 @@ const AdminLessonsList = ({ lessons: l }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
     const [lessons, setLessons] = useState(l);
-
+    useEffect(() => {
+        setLessons(l)
+    }, [l])
     const savedLessons = useMemo(() => lessons, [lessons]);
     const handleEdit = (lesson) => {
         setSelectedLesson({ ...lesson });

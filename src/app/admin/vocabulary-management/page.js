@@ -25,7 +25,7 @@ const adminVocabularyPage = async({ searchParams }) => {
       return (
         <>
           <AdminVocabularyList v={vocabularies} />
-          {totalPages > page &&  <PaginationDefault p={page} totalPages={totalPages}/>}
+          {totalCount > limit &&  <PaginationDefault p={page} totalPages={totalPages}/>}
         </>
       );
 };

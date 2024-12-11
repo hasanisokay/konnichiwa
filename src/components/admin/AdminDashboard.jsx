@@ -22,7 +22,7 @@ console.log(user.photoUrl)
                     className="w-20 h-20 rounded-full object-cover border-4 border-white"
                 />
                 <div>
-                    <h2 className="text-2xl font-semibold">Welcome, {user?.name}!</h2>
+                    <h2 className="text-2xl font-semibold">Welcome, {user?.name || "User"}!</h2>
                     <p className="text-sm opacity-80">{user?.email}</p>
                 </div>
             </div>

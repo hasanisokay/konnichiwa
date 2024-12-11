@@ -3,7 +3,7 @@ import NotFound from "@/components/not-found/NotFound";
 import PaginationDefault from "@/components/pagination/PaginationDefault";
 import getLessons from "@/utils/getLessons.mjs";
 
-const adminLessonPage = async({ searchParams }) => {
+const userTutorialsPage = async({ searchParams }) => {
     const page = parseInt((await searchParams)?.page) || 1;
     const limit = parseInt((await searchParams)?.limit) || 10;
     const sort = (await searchParams)?.sort || "newest";
@@ -24,10 +24,10 @@ const adminLessonPage = async({ searchParams }) => {
       if (!lessons) return <NotFound />;
       return (
         <>
-          <AdminLessonsList lessons={lessons} />
+          {/* <AdminLessonsList lessons={lessons} /> */}
           {totalCount > limit &&          <PaginationDefault p={page} totalPages={totalPages}/>}
         </>
       );
 };
 
-export default adminLessonPage;
+export default userTutorialsPage;

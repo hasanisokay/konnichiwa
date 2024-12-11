@@ -3,7 +3,7 @@ import LoginForm from "@/components/login/LoginForm";
 
 const loginPage = async ({ searchParams }) => {
     const search = await searchParams;
-    const redirectTo = search?.redirectTo || "/";
+    const redirectTo = search?.redirectTo || "/lessons";
 
     return (
         <div>
