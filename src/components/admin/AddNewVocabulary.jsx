@@ -135,7 +135,7 @@ const AddNewVocabulary = () => {
                         options={lessonOptions}
                         value={selectedLesson}
                         onChange={handleLessonChange}
-                        className={`w-full ${errors.lessonNumber ? 'border-red-500' : ''}`}
+                        className={`w-full text-black ${errors.lessonNumber ? 'border-red-500' : ''}`}
                         placeholder="Select a lesson"
                         instanceId={"lessonNumberSelector"}
                     />

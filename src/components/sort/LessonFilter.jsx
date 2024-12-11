@@ -49,6 +49,7 @@ const LessonFilter = () => {
                 value={selectedLesson}
                 onChange={setSelectedLesson}
                 placeholder="Select a Lesson"
+                className="text-black"
                 isClearable
                 instanceId={'lessonSelectorInAdmin'}
             />

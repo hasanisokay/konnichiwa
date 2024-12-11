@@ -38,7 +38,7 @@ const LessonSelector = ({ changeHandler, value }) => {
                 options={lessonOptions}
                 value={selectedLesson || value}
                 onChange={handleLessonChange}
-                className={`w-full`}
+                className={`w-full text-black`}
                 placeholder="Select a lesson"
                 instanceId={"lessonNumberSelector"}
             />
