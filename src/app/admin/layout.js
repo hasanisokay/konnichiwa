@@ -2,10 +2,10 @@ import AdminSidebar from "@/components/admin/AdminSidebar";
 
 const adminLayout = ({ children }) => {
   return (
-    <div className="flex md:flex-row flex-col flex-wrap  min-h-screen">
+    <div className="flex md:flex-row flex-col   md:min-h-[calc(100vh-68px)]">
       {/* Sidebar */}
       <AdminSidebar />
-      <main className="flex-1 bg-gray-100 md:p-6 ">{children}</main>
+      <section className="flex-1 bg-gray-100 lg:p-6 ">{children}</section>
     </div>
   );
 };

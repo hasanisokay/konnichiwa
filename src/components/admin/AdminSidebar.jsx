@@ -19,7 +19,7 @@ const AdminSidebar = () => {
     ];
 
     return (
-        <div className="relative md:sticky top-0 bottom-0 md:h-screen h-auto flex-shrink-0 md:w-64 w-full md:bg-gray-800/70 bg-background/95 bg-white backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
+        <div className="relative md:static md:top-0 md:bottom-0  h-auto flex-shrink-0 md:w-64 w-full md:bg-gray-800 bg-background/95 bg-white backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
 
             {/* Toggle Button */}
             <button
@@ -41,8 +41,8 @@ const AdminSidebar = () => {
 
             {/* Sidebar Content */}
             <aside
-                className={`absolute md:static top-[56px] text-white left-0 w-full md:w-auto bg-gray-800 md:block transform transition-transform ${isOpen ? 'translate-x-0' : '-translate-x-full'
-                    } md:translate-x-0 md:h-screen p-4`}
+                className={`absolute md:sticky top-[56px] text-white left-0 w-full md:w-auto bg-gray-800 md:block transform transition-transform ${isOpen ? 'translate-x-0' : '-translate-x-full'
+                    } md:translate-x-0 md:h-fit p-4`}
             >
                 <h2 className="text-lg font-bold mb-6">Admin Panel</h2>
                 <ul className="space-y-4">

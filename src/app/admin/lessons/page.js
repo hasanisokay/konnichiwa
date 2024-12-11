@@ -13,19 +13,19 @@ const adminLessonPage = async({ searchParams }) => {
     try {
         const d = await getLessons(page, limit, sort, keyword);
         lessons = d?.lessons;
-        totalCount = d?.data?.totalCount || 0;
+        totalCount = d?.totalCount || 0;
         
       } catch (error) {
         console.log(error);
         lessons = null;
       }
       const totalPages = Math.ceil(totalCount / limit);
-    
+
       if (!lessons) return <NotFound />;
       return (
         <>
           <AdminLessonsList lessons={lessons} />
-          <PaginationDefault p={page} totalPages={totalPages}/>
+          {totalPages > page &&  <PaginationDefault p={page} totalPages={totalPages}/>}
         </>
       );
 };
