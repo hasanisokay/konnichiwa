@@ -1,27 +1,34 @@
 'use client'
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 import SpeakerIcon from '../svg/SpeakerIcon';
 import speakWord from '@/utils/speakWord.mjs';
+import LessonFilter from '../sort/LessonFilter';
+import SearchBox from '../search/SearchBox';
 
 const AdminVocabularyList = ({ v }) => {
+
   const [vocabularies, setVocabularies] = useState(v);
   const [isEditing, setIsEditing] = useState(false);
   const [selectedVocabulary, setSelectedVocabulary] = useState(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [vocabularyToDelete, setVocabularyToDelete] = useState(null);
 
-  const memoizedVocabularies = useMemo(() => vocabularies, [vocabularies]);
-
   const handleEdit = (vocabulary) => {
     setSelectedVocabulary({ ...vocabulary });
     setIsEditing(true);
   };
-
+  useEffect(() => {
+    setVocabularies(v)
+  }, [v])
+  const memorizedVocabularies = useMemo(() => vocabularies, [vocabularies]);
   const handleDelete = async (vocabularyId) => {
-    // Call the delete API here
-    const res = await fetch(`/api/vocabulary/${vocabularyId}`, {
-      method: 'DELETE',
+    const res = await fetch(`/api/deletes/delete-vocabulary`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ vocabularyId })
     });
     const data = await res.json();
 
@@ -30,7 +37,6 @@ const AdminVocabularyList = ({ v }) => {
         position: 'top-center',
         autoClose: 1500,
       });
-      // Remove the deleted vocabulary from the state
       setVocabularies(vocabularies.filter((vocab) => vocab._id !== vocabularyId));
     } else {
       toast.error(data?.message || 'Error deleting vocabulary', {
@@ -87,12 +93,14 @@ const AdminVocabularyList = ({ v }) => {
 
   return (
     <div className="bg-gray-100 md:p-6 p-4">
+      <SearchBox placeholder={'Search with word or meaning'} />
+      <LessonFilter />
       <h1 className="text-2xl font-bold text-gray-700 mb-6">Vocabulary List</h1>
-      {memoizedVocabularies?.length === 0 ? (
+      {memorizedVocabularies?.length === 0 ? (
         <p className="text-gray-500 text-center">No vocabulary found.</p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {memoizedVocabularies.map((vocabulary) => (
+          {memorizedVocabularies.map((vocabulary) => (
             <div
               key={vocabulary._id}
               className="bg-white rounded-lg shadow-md p-6 flex flex-col justify-between"
@@ -186,16 +194,16 @@ const AdminVocabularyList = ({ v }) => {
             <div>
               <label className="block mb-2 text-sm font-medium text-gray-700">Meaning</label>
               <div className="flex items-center">
-              <input
-                type="text"
-                value={selectedVocabulary.meaning}
-                onChange={(e) =>
-                  setSelectedVocabulary({ ...selectedVocabulary, meaning: e.target.value })
-                }
-                className="w-full border border-gray-300 rounded-lg p-2 mb-4"
-              />
-              <SpeakerIcon
-                clickHandler={() => speakWord(selectedVocabulary.meaning, 'en-US')} />
+                <input
+                  type="text"
+                  value={selectedVocabulary.meaning}
+                  onChange={(e) =>
+                    setSelectedVocabulary({ ...selectedVocabulary, meaning: e.target.value })
+                  }
+                  className="w-full border border-gray-300 rounded-lg p-2 mb-4"
+                />
+                <SpeakerIcon
+                  clickHandler={() => speakWord(selectedVocabulary.meaning, 'en-US')} />
               </div>
 
             </div>

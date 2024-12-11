@@ -41,7 +41,6 @@ const AddNewVocabulary = () => {
             if(lessons.length > 0) return;
             const res = await fetch('/api/gets/lesson-numbers');
             const data = await res.json();
-            console.log(data?.data?.lessonNumbers)
             if (data?.status === 200) {
                 setLessons(data?.data?.lessonNumbers);
             } else {

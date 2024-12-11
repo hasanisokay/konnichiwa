@@ -11,6 +11,7 @@ export const GET = async (req) => {
     const searchParams = req.nextUrl.searchParams;
     const keyword = searchParams.get("keyword");
     const sort = searchParams.get("sort");
+    const lessonNumber = searchParams.get("lesson_no");
     const page = parseInt(searchParams.get("page")) || 1;
     const limit = parseInt(searchParams.get("limit")) || 100;
 
@@ -27,11 +28,13 @@ export const GET = async (req) => {
 
     if (keyword) {
       matchStage.$or = [
-        { lessonName: { $regex: keyword, $options: "i" } },
-        { lessonDescription: { $regex: keyword, $options: "i" } },
+        { word: { $regex: keyword, $options: "i" } },
+        { meaning: { $regex: keyword, $options: "i" } },
       ];
     }
-
+    if (lessonNumber) {
+      matchStage.lessonNumber = parseInt(lessonNumber); 
+    }
     const res = await vocabularyCollection.find(matchStage)
       .sort({ lessonNumber: sortOrder })
       .skip(skip)

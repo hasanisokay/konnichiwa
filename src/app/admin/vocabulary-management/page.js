@@ -8,10 +8,11 @@ const adminVocabularyPage = async({ searchParams }) => {
     const limit = parseInt((await searchParams)?.limit) || 10;
     const sort = (await searchParams)?.sort || "newest";
     const keyword = (await searchParams)?.keyword || "";
+    const lessonNumber = (await searchParams)?.lesson_no || "";
     let vocabularies;
     let totalCount;
     try {
-        const d = await getVocabularies(page, limit, sort, keyword);
+        const d = await getVocabularies(page, limit, sort, keyword, lessonNumber);
         vocabularies = d?.vocabularies;
         totalCount = d?.totalCount || 0;
         
