@@ -1,33 +1,37 @@
-import AdminLessonsList from "@/components/admin/AdminLessonsList";
+
+import TutorialsList from "@/components/admin/TutorialsList";
 import NotFound from "@/components/not-found/NotFound";
 import PaginationDefault from "@/components/pagination/PaginationDefault";
-import getLessons from "@/utils/getLessons.mjs";
+import UserTutorialList from "@/components/user/UserTutorialList";
 
-const userTutorialsPage = async({ searchParams }) => {
-    const page = parseInt((await searchParams)?.page) || 1;
-    const limit = parseInt((await searchParams)?.limit) || 10;
-    const sort = (await searchParams)?.sort || "newest";
-    const keyword = (await searchParams)?.keyword || "";
-    let lessons;
-    let totalCount;
-    try {
-        const d = await getLessons(page, limit, sort, keyword);
-        lessons = d?.lessons;
-        totalCount = d?.totalCount || 0;
-        
-      } catch (error) {
-        console.log(error);
-        lessons = null;
-      }
-      const totalPages = Math.ceil(totalCount / limit);
+import getTutorials from "@/utils/getTutorials.mjs";
 
-      if (!lessons) return <NotFound />;
-      return (
-        <>
-          {/* <AdminLessonsList lessons={lessons} /> */}
-          {totalCount > limit &&          <PaginationDefault p={page} totalPages={totalPages}/>}
-        </>
-      );
+const adminTutorialsPage = async ({ searchParams }) => {
+  const page = parseInt((await searchParams)?.page) || 1;
+  const limit = parseInt((await searchParams)?.limit) || 10;
+  const sort = (await searchParams)?.sort || "newest";
+  const keyword = (await searchParams)?.keyword || "";
+  let tutorials;
+  let totalCount;
+  try {
+    const d = await getTutorials(page, limit, sort, keyword);
+    tutorials = d?.data?.tutorials;
+    totalCount = d?.data?.totalCount || 0;
+  } catch (error) {
+    console.log(error);
+    tutorials = null;
+  }
+  const totalPages = Math.ceil(totalCount / limit);
+
+  if (!tutorials) return <NotFound />;
+  return (
+    <>
+      <UserTutorialList t={tutorials} />
+      {totalCount > limit && (
+        <PaginationDefault p={page} totalPages={totalPages} />
+      )}
+    </>
+  );
 };
 
-export default userTutorialsPage;
+export default adminTutorialsPage;
