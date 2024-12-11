@@ -32,11 +32,7 @@ export const PUT = async (req) => {
         { lessonNumber: previousLessonNumber },
         { $set: { lessonNumber: updatedFields.lessonNumber } }
       );
-      console.log({
-        result,
-        previousLessonNumber,
-        r: updatedFields.lessonNumber,
-      });
+
     }
     if (result?.modifiedCount === 0) {
       return serverErrorResponse("Lesson not found or no fields were updated");

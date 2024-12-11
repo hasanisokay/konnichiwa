@@ -1,5 +1,3 @@
-
-import TutorialsList from "@/components/admin/TutorialsList";
 import NotFound from "@/components/not-found/NotFound";
 import PaginationDefault from "@/components/pagination/PaginationDefault";
 import UserTutorialList from "@/components/user/UserTutorialList";

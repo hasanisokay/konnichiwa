@@ -13,7 +13,7 @@ const manaeUsersPage = async ({searchParams}) => {
     let totalCount;
     try {
         const d = await getUsers(page, limit, sort, keyword);
-        console.log(d)
+
         users = d?.users;
         totalCount = d?.totalCount || 0;
         

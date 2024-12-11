@@ -46,7 +46,7 @@ const LoginForm = ({ redirectTo }) => {
                 autoClose: 1000
             });
             dispatch(setUserData(response.data));
-            router.replace(redirectTo);
+            router.replace("/");
         } else {
             toast.error(`${response?.message || response?.error}`, {
                 position: "top-center",

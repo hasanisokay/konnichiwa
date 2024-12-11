@@ -6,7 +6,6 @@ const adminPage = async () => {
   let data;
   try {
     const d = await getDashboardData();
-    console.log(d)
     if (d.status === 200) {
       data = d.data;
     }

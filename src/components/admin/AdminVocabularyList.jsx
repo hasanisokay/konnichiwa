@@ -13,7 +13,6 @@ const AdminVocabularyList = ({ v }) => {
   const [selectedVocabulary, setSelectedVocabulary] = useState(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [vocabularyToDelete, setVocabularyToDelete] = useState(null);
-console.log(v)
   const handleEdit = (vocabulary) => {
     setSelectedVocabulary({ ...vocabulary });
     setIsEditing(true);

@@ -1,21 +1,19 @@
 'use client'
 
+import { defaultAvatarLink } from "@/constants/constantNames.mjs";
 import Image from "next/image";
 import { useSelector } from "react-redux";
 
 const AdminDashboard = ({ d }) => {
-    // Access user data from Redux store
     const user = useSelector(state => state.user.userData);
-
-    // Destructure the data from the API props
     const { totalUsers, usersJoinedToday, totalLessons, totalVocabularies } = d;
-console.log(user.photoUrl)
+
     return (
         <div className="p-8 bg-gray-50 min-h-screen">
             {/* Greeting Section */}
             <div className="bg-gradient-to-r from-blue-500 to-teal-400 p-6 rounded-lg shadow-lg text-white flex items-center space-x-6">
                 <Image
-                    src={user?.photoUrl || 'https://i.ibb.co.com/tPZFFkY/pngegg.png'} 
+                    src={user?.photoUrl || defaultAvatarLink} 
                     alt="User Photo" 
                     width={100}
                     height={100}

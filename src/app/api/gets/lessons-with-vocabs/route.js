@@ -11,19 +11,24 @@ export const GET = async (req) => {
     const searchParams = req.nextUrl.searchParams;
     const keyword = searchParams.get("keyword");
     const sort = searchParams.get("sort");
+    const lessonNumberStr = searchParams.get("lessonNumber");
+    const lessonNumber = parseInt(lessonNumberStr);
     const page = parseInt(searchParams.get("page")) || 1;
     const limit = parseInt(searchParams.get("limit")) || 100;
 
     let skip = (page - 1) * limit;
-    const db = await dbConnect();
     if (limit > 1000) {
       skip = 0;
     }
+    const db = await dbConnect();
+
     if (!db) return serverErrorResponse("Database error");
 
     const matchStage = {};
     const lessonCollection = await db.collection("lessons");
-
+    if (lessonNumber) {
+      matchStage.lessonNumber = lessonNumber;
+    }
     if (keyword) {
       matchStage.$or = [
         { lessonName: { $regex: keyword, $options: "i" } },
@@ -48,11 +53,12 @@ export const GET = async (req) => {
           $project: {
             lessonName: 1,
             lessonNumber: 1,
-            vocabSize: { $size: { $ifNull: ["$vocabularies", []] } },
+            vocabularies: 1,
           },
         },
       ])
       .toArray();
+
 
     const totalCount = await lessonCollection.countDocuments(matchStage);
 
