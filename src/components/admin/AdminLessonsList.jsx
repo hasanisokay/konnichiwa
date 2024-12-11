@@ -48,6 +48,7 @@ const AdminLessonsList = ({ lessons: l }) => {
     };
 
     const saveEdit = async () => {
+
         if (
             selectedLesson.lessonName === originalLesson.lessonName &&
             selectedLesson.lessonNumber === originalLesson.lessonNumber
@@ -58,12 +59,14 @@ const AdminLessonsList = ({ lessons: l }) => {
             })
             return;
         }
+        delete selectedLesson.vocabSize
+        const changeLessonNumber = selectedLesson.lessonNumber === originalLesson.lessonNumber;
         const res = await fetch("/api/puts/edit-lesson", {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(selectedLesson)
+            body: JSON.stringify({ ...selectedLesson, changeLessonNumber: !changeLessonNumber, previousLessonNumber: originalLesson.lessonNumber })
         });
         const data = await res.json()
         if (data?.status === 200) {
@@ -178,7 +181,7 @@ const AdminLessonsList = ({ lessons: l }) => {
                         <h2 className="text-lg font-bold mb-4">Delete Lesson</h2>
                         <p className="text-gray-700 mb-6">
                             Are you sure you want to delete the lesson {selectedLesson.lessonName}?
-                            It will delete {selectedLesson.vocabSize > 0 ? selectedLesson.vocabSize :"all"} vocabularies in it too. This operation is irreversible.
+                            It will delete {selectedLesson.vocabSize > 0 ? selectedLesson.vocabSize : "all"} vocabularies in it too. This operation is irreversible.
                         </p>
                         <div className="flex justify-end space-x-4">
                             <button

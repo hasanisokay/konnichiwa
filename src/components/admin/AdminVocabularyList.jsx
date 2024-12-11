@@ -5,15 +5,15 @@ import SpeakerIcon from '../svg/SpeakerIcon';
 import speakWord from '@/utils/speakWord.mjs';
 import LessonFilter from '../sort/LessonFilter';
 import SearchBox from '../search/SearchBox';
+import LessonSelector from '../selects/LessonSelector';
 
 const AdminVocabularyList = ({ v }) => {
-
   const [vocabularies, setVocabularies] = useState(v);
   const [isEditing, setIsEditing] = useState(false);
   const [selectedVocabulary, setSelectedVocabulary] = useState(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [vocabularyToDelete, setVocabularyToDelete] = useState(null);
-
+console.log(v)
   const handleEdit = (vocabulary) => {
     setSelectedVocabulary({ ...vocabulary });
     setIsEditing(true);
@@ -60,8 +60,7 @@ const AdminVocabularyList = ({ v }) => {
   };
 
   const handleSaveEdit = async () => {
-    // Call the save edit API here
-    const res = await fetch(`/api/vocabulary/${selectedVocabulary._id}`, {
+    const res = await fetch(`/api/puts/edit-vocabulary`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -129,6 +128,9 @@ const AdminVocabularyList = ({ v }) => {
                 </p>
                 <p className="text-gray-600">
                   <span className="font-medium">Lesson No:</span> {vocabulary.lessonNumber}
+                </p>
+                <p className="text-gray-600">
+                  <span className="font-medium">Added by:</span> {vocabulary.adminEmail}
                 </p>
               </div>
               <div className="flex justify-end gap-3 mt-4">
@@ -233,14 +235,8 @@ const AdminVocabularyList = ({ v }) => {
             </div>
             <div>
               <label className="block mb-2 text-sm font-medium text-gray-700">Lesson No</label>
-              <input
-                type="number"
-                value={selectedVocabulary.lessonNumber}
-                onChange={(e) =>
-                  setSelectedVocabulary({ ...selectedVocabulary, lessonNumber: +e.target.value })
-                }
-                className="w-full border border-gray-300 rounded-lg p-2 mb-4"
-              />
+              <LessonSelector changeHandler={(e) =>
+                  setSelectedVocabulary({ ...selectedVocabulary, lessonNumber: e.value })} />
             </div>
             <div className="flex justify-end space-x-4">
               <button

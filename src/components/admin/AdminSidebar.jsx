@@ -10,12 +10,11 @@ const AdminSidebar = () => {
 
     const links = [
         { href: '/admin', label: 'Dashboard' },
-        { href: '/admin/lessons', label: 'Lessons' },
-        { href: '/admin/add-lesson', label: 'Add Lesson' },
-        { href: '/admin/add-vocabulary', label: 'Add Vocabulary' },
         { href: '/admin/manage-users', label: 'Manage Users' },
-        { href: '/admin/lesson-management', label: 'Lesson Management' },
-        { href: '/admin/vocabulary-management', label: 'Vocabulary Management' },
+        { href: '/admin/add-lesson', label: 'Add Lesson' },
+        { href: '/admin/lessons', label: 'Lessons' },
+        { href: '/admin/add-vocabulary', label: 'Add Vocabulary' },
+        { href: '/admin/vocabulary-management', label: 'Vocabularies' },
     ];
 
     return (
@@ -51,8 +50,8 @@ const AdminSidebar = () => {
                             <Link
                                 href={link.href}
                                 className={`block py-2 px-4 rounded ${pathname === link.href
-                                        ? 'bg-blue-500 text-white'
-                                        : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                                    ? 'bg-blue-500 text-white'
+                                    : 'text-gray-300 hover:bg-gray-700 hover:text-white'
                                     }`}
                                 onClick={() => setIsOpen(false)} // Close menu on link click
                             >
