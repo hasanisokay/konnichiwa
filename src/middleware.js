@@ -29,7 +29,14 @@ export async function middleware(request) {
       return NextResponse.redirect(loginUrl);
     }
   }
-  if (token && pathName === "/") {
+  if(token && !pathName.includes("/admin") && pathName !=="/" && pathName !=="/profile" && !pathName.includes("/api")){
+    const payload = await verifyToken(token);
+    if (payload.role === "admin") {
+      const loginUrl = new URL("/admin", request.url);
+      return NextResponse.redirect(loginUrl);
+    }
+  }
+  if (token && pathName ==="/") {
     const payload = await verifyToken(token);
     if (payload.role === "admin") {
       const loginUrl = new URL("/admin", request.url);
@@ -45,7 +52,7 @@ export async function middleware(request) {
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|api/posts/login|api/posts/signup|api/posts/check-email-availability).*)",
+    "/((?!_next/static|_next/image|favicon.ico|api/posts/login|api/posts/signup|api/gets|api/posts/check-email-availability).*)",
     /*
      * Match all request paths except for the ones starting with:
      * - api (API routes)

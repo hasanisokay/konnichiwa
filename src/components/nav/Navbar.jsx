@@ -96,8 +96,8 @@ const Navbar = () => {
             <div className="hidden sm:block sm:ml-6">
               <div className="flex space-x-4">
                 {/* <Link href="/" className={getLinkClass("/")}>Home</Link> */}
-                {user?.status === 'active' && <Link href="/lessons" className={getLinkClass("/lessons")}>Lessons</Link>}
-                {user?.status === 'active' && <Link href="/tutorials" className={getLinkClass("/tutorials")}>Tutorials</Link>}
+                {user?.status === 'active' && user.role !=="admin" && <Link href="/lessons" className={getLinkClass("/lessons")}>Lessons</Link>}
+                {user?.status === 'active' && user.role !=="admin" && <Link href="/tutorials" className={getLinkClass("/tutorials")}>Tutorials</Link>}
                 {user?.status === 'active' && <Link href="/profile" className={getLinkClass("/profile")}>Profile</Link>}
                 {user?.role === 'admin' && <Link href="/admin" className={getLinkClass("/admin")}>Admin</Link>}
                 {user && <div className="dark:text-white text-black px-2 py-[1px] rounded-md text-sm font-medium">

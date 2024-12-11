@@ -5,12 +5,14 @@ export const serverErrorResponse = (message = "Internal Server Error") => {
 };
 
 export const successResponse = (data = {}, message = "Request successful") => {
-
-  return NextResponse.json({ message, data, status: 200 },);
+  return NextResponse.json({ message, data, status: 200 });
 };
 
-export const badRequestResponse = (message = "Bad Request") => {
-  return NextResponse.json({ error: message }, { status: 400 });
+export const badRequestResponse = (
+  message = "Bad Request",
+  error = "Bad Request"
+) => {
+  return NextResponse.json({ error, message, status: 400 });
 };
 
 export const unauthorizedResponse = (message = "Unauthorized") => {
@@ -25,8 +27,8 @@ export const notFoundResponse = (message = "Not Found") => {
   return NextResponse.json({ error: message }, { status: 404 });
 };
 
-export const conflictResponse = (message = "Conflict") => {
-  return NextResponse.json({ error: message }, { status: 409 });
+export const conflictResponse = (message = "Conflict", error = "Conflict") => {
+  return NextResponse.json({ error, message, status: 409 });
 };
 
 export const serviceUnavailableResponse = (message = "Service Unavailable") => {
