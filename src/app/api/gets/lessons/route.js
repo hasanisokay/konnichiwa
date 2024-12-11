@@ -36,8 +36,8 @@ export const GET = async (req) => {
       {
         $lookup: {
           from: "vocabularies",
-          localField: "_id",
-          foreignField: "lessonId", // assuming you have a field lessonId in vocabularies collection
+          localField: "lessonNumber",
+          foreignField: "lessonNumber",
           as: "vocabularies"
         }
       },
