@@ -21,13 +21,13 @@ export const POST = async (req) => {
 
     if (existingUser) {
       return NextResponse.json({
-        message: "Email already is in use.",
+        message: "Email is already in use.",
         status: 200,
         emailAvailable: false,
       });
     } else {
       return NextResponse.json({
-        message: "Email is not in use.",
+        message: "Email is available.",
         status: 200,
         emailAvailable: true,
       });

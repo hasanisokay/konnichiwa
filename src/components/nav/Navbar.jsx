@@ -95,7 +95,7 @@ const Navbar = () => {
             </div>
             <div className="hidden sm:block sm:ml-6">
               <div className="flex space-x-4">
-                <Link href="/" className={getLinkClass("/")}>Home</Link>
+                {/* <Link href="/" className={getLinkClass("/")}>Home</Link> */}
                 {user?.status === 'active' && <Link href="/lessons" className={getLinkClass("/lessons")}>Lessons</Link>}
                 {user?.status === 'active' && <Link href="/tutorials" className={getLinkClass("/tutorials")}>Tutorials</Link>}
                 {user?.status === 'active' && <Link href="/profile" className={getLinkClass("/profile")}>Profile</Link>}
@@ -113,7 +113,7 @@ const Navbar = () => {
       {/* Mobile menu */}
       <div className={`${isOpen ? "block" : "hidden"} sm:hidden`} id="mobile-menu">
         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-          <Link href="/" className={getLinkClass("/")}>Home</Link>
+          {/* <Link href="/" className={getLinkClass("/")}>Home</Link> */}
           <div className={`${getLinkClass("/members")} ${getLinkClass("/members/new")} flex gap-4 `}>
             <Link href="/members">
               Members

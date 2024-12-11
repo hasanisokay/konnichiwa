@@ -3,7 +3,6 @@ import { verifyToken } from "./utils/verifyToken.mjs";
 import logOut from "./utils/logOut.mjs";
 import { TOKEN_COOKIE } from "./constants/constantNames.mjs";
 
-
 export async function middleware(request) {
   // return NextResponse.next();
   let token = request.cookies
@@ -12,25 +11,34 @@ export async function middleware(request) {
     ?.trim();
   const pathName = request.nextUrl.pathname;
 
-  if ((pathName === "/login" || pathName==="/signup") && token) {
+  if ((pathName === "/login" || pathName === "/signup") && token) {
     return NextResponse.redirect(new URL("/", request.url));
   }
-  if (!token && pathName !== "/login" && pathName !=="/signup") {
+  if (!token && pathName !== "/login" && pathName !== "/signup") {
     const loginUrl = new URL("/login", request.url);
     loginUrl.searchParams.set("redirectTo", pathName);
     return NextResponse.redirect(loginUrl);
   }
-  
+
   if (pathName.includes("/admin") && token) {
     const payload = await verifyToken(token);
-    if (!payload || payload.role !=="admin") {
+    if (!payload || payload.role !== "admin") {
       await logOut();
       const loginUrl = new URL("/login", request.url);
       loginUrl.searchParams.set("redirectTo", pathName);
       return NextResponse.redirect(loginUrl);
     }
   }
-
+  if (token && pathName === "/") {
+    const payload = await verifyToken(token);
+    if (payload.role === "admin") {
+      const loginUrl = new URL("/admin", request.url);
+      return NextResponse.redirect(loginUrl);
+    } else if (payload.role === "user" && payload.status === "active") {
+      const loginUrl = new URL("/lessons", request.url);
+      return NextResponse.redirect(loginUrl);
+    }
+  }
 
   return NextResponse.next();
 }
