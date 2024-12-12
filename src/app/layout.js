@@ -24,23 +24,29 @@ const geistMono = localFont({
   weight: "100 900",
 });
 export async function generateMetadata() {
-  const host = await hostname(); 
+  const host = await hostname();
 
   return {
     title: "Konnichiwa | Home",
-    description: "Learn Japanese with Konnichiwa! Your go-to platform for mastering the Japanese language through interactive lessons and engaging content.",
+    description:
+      "Learn Japanese with Konnichiwa! Your go-to platform for mastering the Japanese language through interactive lessons and engaging content.",
     publisher: "Hasan",
-    keywords: ["learn-japanese", "Japanese language", "language learning", "Konnichiwa"],
+    keywords: [
+      "learn-japanese",
+      "Japanese language",
+      "language learning",
+      "Konnichiwa",
+    ],
     other: {
       "color-scheme": ["dark", "light"],
-      "twitter:image": "https://i.ibb.co/QQknMBw/konnichiwa.png", 
+      "twitter:image": "https://i.ibb.co/QQknMBw/konnichiwa.png",
       "twitter:card": "summary_large_image",
       "twitter:title": "Konnichiwa | Home",
       "twitter:description":
         "Learn Japanese with Konnichiwa! Discover interactive lessons, engaging content, and a vibrant community.",
       "og:title": "Konnichiwa | Home",
-      "og:url": `${host}`, 
-      "og:image": "https://i.ibb.co/QQknMBw/konnichiwa.png", 
+      "og:url": `${host}`,
+      "og:image": "https://i.ibb.co/QQknMBw/konnichiwa.png",
       "og:description":
         "Join Konnichiwa to master the Japanese language with ease. Explore our interactive platform for language learners.",
       "og:type": "website",
@@ -50,9 +56,6 @@ export async function generateMetadata() {
     },
   };
 }
-
-
-
 
 export default async function RootLayout({ children }) {
   let storedTheme = await getThemeCookie();
@@ -67,20 +70,20 @@ export default async function RootLayout({ children }) {
     <StoreProvider initialReduxState={initialReduxState}>
       <ThemeProvider>
         <html lang="en" data-theme={storedTheme}>
-        <head>
-<link rel="apple-touch-icon" sizes="180x180" href="/public/apple-touch-icon.png" />
+          <head>
+            {/* <link rel="apple-touch-icon" sizes="180x180" href="/public/apple-touch-icon.png" />
 <link rel="icon" type="image/png" sizes="512x512" href="/public/android-chrome-512x512.png" />
 <link rel="icon" type="image/png" sizes="192x192" href="/public/android-chrome-192x192.png" />
 <link rel="icon" type="image/png" sizes="32x32" href="/public/favicon-32x32.png" />
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-<link rel="manifest" href="/site.webmanifest" />
-</head>
+<link rel="manifest" href="/site.webmanifest" /> */}
+          </head>
           <body
             className={`${geistSans.variable} ${geistMono.variable} antialiased`}
           >
             <div className="min-h-screen ">
-            <Navbar />
-            {children}
+              <Navbar />
+              {children}
             </div>
             <Footer />
             <ToastContainer transition={Zoom} />
