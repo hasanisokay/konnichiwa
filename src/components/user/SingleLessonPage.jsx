@@ -2,6 +2,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Confetti from "react-confetti";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
 import "./animation.css";
 import SpeakerIcon from "../svg/SpeakerIcon";
 import speakWord from "@/utils/speakWord.mjs";
@@ -16,36 +18,12 @@ const SingleLessonPage = ({ l }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [showComplete, setShowComplete] = useState(false);
     const [showConfetti, setShowConfetti] = useState(false);
-    const [animationClass, setAnimationClass] = useState("fade-in");
 
     useEffect(() => {
         if (l?.length > 0) {
             setLessonData(l[0]);
-            setCurrentIndex(0);
         }
     }, [l]);
-
-    const handleNext = () => {
-        if (currentIndex < lessonData?.vocabularies?.length - 1) {
-            setAnimationClass("fade-out");
-            setTimeout(() => {
-                setCurrentIndex((prevIndex) => prevIndex + 1);
-                setAnimationClass("fade-in");
-            }, 300);
-        } else {
-            setShowComplete(true);
-        }
-    };
-
-    const handlePrev = () => {
-        if (currentIndex > 0) {
-            setAnimationClass("fade-out");
-            setTimeout(() => {
-                setCurrentIndex((prevIndex) => prevIndex - 1);
-                setAnimationClass("fade-in");
-            }, 300);
-        }
-    };
 
     const handleComplete = async () => {
         const res = await fetch("/api/posts/save-progress", {
@@ -76,71 +54,83 @@ const SingleLessonPage = ({ l }) => {
             setShowConfetti(false);
             document.body.style.overflow = "";
             router.push("/lessons");
-        }, 7000);
+        }, 5000);
     };
 
-    const vocab = lessonData?.vocabularies?.[currentIndex];
+    const handleSlideChange = (swiper) => {
+        setCurrentIndex(swiper.activeIndex);
+        if (swiper.activeIndex === lessonData?.vocabularies?.length - 1) {
+            setShowComplete(true);
+        } else {
+            setShowComplete(false);
+        }
+    };
 
     return (
-        <div>
+        <div className="relative">
             {showConfetti && <Confetti numberOfPieces={2000} width={window.innerWidth} height={window.innerHeight} />}
-
             <audio ref={audioRef} src="/sounds/applause.mp3" type="audio/mp3" preload="auto" />
-            <div className="absolute top-[30%] left-0 right-0 mx-auto px-4 py-6 overflow-hidden">
-                <p className="text-center">Showing {currentIndex + 1} of {lessonData?.vocabularies?.length}</p>
-                <div className="flex flex-col items-center justify-center">
-                    {vocab ? (
-                        <div
-                            className={`bg-white dark:bg-gray-800 p-6 md:min-w-[400px] min-w-[300px] min-h-[200px] rounded-lg shadow-md hover:shadow-lg transition ${animationClass}`}
-                        >
-                            <h3 className="text-xl font-semibold text-gray-800 dark:text-white">{vocab.word}</h3>
-                            <p className="text-sm text-gray-600 dark:text-gray-300 mt-2 flex items-center">
-                                <span>Meaning: {vocab.meaning}</span>
-                                <SpeakerIcon
-                                    className="ml-2 cursor-pointer hover:text-blue-500"
-                                    clickHandler={() => speakWord(vocab.meaning, "en-US")}
-                                />
-                            </p>
-                            <p className="text-sm text-gray-500 dark:text-gray-400 flex items-center">
-                                <span>Pronunciation: {vocab.pronunciation}</span>
-                                <SpeakerIcon
-                                    className="ml-2 cursor-pointer hover:text-blue-500"
-                                    clickHandler={() => speakWord(vocab.pronunciation)}
-                                />
-                            </p>
-                            <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">When to say: {vocab.whenToSay}</p>
-                        </div>
-                    ) : (
-                        <p className="text-gray-500 dark:text-gray-300">No vocabulary to display.</p>
-                    )}
 
-                    {!showComplete && (
-                        <div className="flex items-center space-x-4 mt-6">
-                            <button
-                                onClick={handlePrev}
-                                className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 transition"
-                                disabled={currentIndex === 0}
-                            >
-                                Previous
-                            </button>
-                            <button
-                                onClick={handleNext}
-                                className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-600 transition"
-                            >
-                                Next
-                            </button>
-                        </div>
-                    )}
+            <div className="px-4 py-6 overflow-hidden">
+                <p className="text-center text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">
+                    Showing {currentIndex + 1} of {lessonData?.vocabularies?.length}
+                </p>
 
-                    {showComplete && (
-                        <button
+                <Swiper
+                    onSlideChange={handleSlideChange}
+                    spaceBetween={50}
+                    slidesPerView={1}
+                >
+                    {lessonData?.vocabularies?.map((vocab, index) => (
+                        <SwiperSlide key={index}>
+                            <div className="bg-white dark:bg-gray-800 p-6 lg:w-[500px] md:w-[400px] w-[300px] mx-auto min-h-[200px] rounded-lg shadow-md hover:shadow-lg transition">
+                                <h3 className="text-xl  font-semibold text-gray-800 dark:text-white">{vocab.word}</h3>
+                                <p className="text-sm text-gray-600 dark:text-gray-300 mt-2 flex items-center">
+                                    <span>Meaning: {vocab.meaning}</span>
+                                    <SpeakerIcon clickHandler={() => speakWord(vocab.meaning, "en-US")} />
+                                </p>
+                                <p className="text-sm text-gray-500 dark:text-gray-400 flex items-center">
+                                    <span>Pronunciation: {vocab.pronunciation}</span>
+                                    <SpeakerIcon clickHandler={() => speakWord(vocab.pronunciation)} />
+                                </p>
+                                <p className="text-xs text-gray-400 mt-1">When to say: {vocab.whenToSay}</p>
+                            </div>
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
+
+                <div className="flex justify-center mt-6 space-x-4">
+                    <button
+                        onClick={() => {
+                            const swiper = document.querySelector(".swiper").swiper;
+                            swiper.slidePrev();
+                        }}
+                        className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 transition"
+                        disabled={currentIndex === 0}
+                    >
+                        Previous
+                    </button>
+                    {!showComplete && <button
+                        onClick={() => {
+                            const swiper = document.querySelector(".swiper").swiper;
+                            swiper.slideNext();
+                        }}
+                        className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-600 transition"
+                        disabled={currentIndex === lessonData?.vocabularies?.length - 1}
+                    >
+                        Next
+                    </button>}
+                    {
+                        showComplete && <button
                             onClick={handleComplete}
-                            className="mt-4 px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 dark:bg-green-700 dark:hover:bg-green-600 transition"
+                            className="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 dark:bg-green-700 dark:hover:bg-green-600 transition"
                         >
                             Complete
                         </button>
-                    )}
+                    }
+
                 </div>
+
             </div>
         </div>
     );
