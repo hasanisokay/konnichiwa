@@ -21,7 +21,7 @@ const Navbar = () => {
   const getLinkClass = (p) => {
     let path = p;
     return path === currentPath
-      ? "md:text-white text-green-500 md:bg-gray-700 md:px-2 md:py-[1px] rounded-md text-sm font-medium"
+      ? "md:text-white text-green-500 dark:text-[#202124] md:dark:text-white md:bg-gray-700 md:px-2 md:py-[1px] rounded-md text-sm font-medium"
       : "dark:text-white text-black dark:hover:text-white md:px-2 md:py-[1px] rounded-md text-sm font-medium";
   };
   const dispatch = useDispatch();
@@ -64,34 +64,53 @@ const Navbar = () => {
       <nav className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8" aria-label="Global">
         <div className="relative flex items-center justify-between h-16">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-            <button
-              type="button"
-              onClick={toggleMenu}
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-0 focus:ring-offset-0 focus:ring-offset-gray-800 focus:ring-white"
-              aria-controls="mobile-menu"
-              aria-expanded={isOpen ? "true" : "false"}
-            >
-              <span className="sr-only">Open main menu</span>
-              <svg
-                className="block h-6 w-6"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16M4 18h16"
-                ></path>
-              </svg>
-            </button>
+          <button
+  type="button"
+  onClick={toggleMenu}
+  className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-0 focus:ring-offset-0 focus:ring-offset-gray-800 focus:ring-white"
+  aria-controls="mobile-menu"
+  aria-expanded={isOpen ? "true" : "false"}
+>
+  <span className="sr-only">{isOpen ? "Close main menu" : "Open main menu"}</span>
+  {isOpen ? (
+    <svg
+      className="block h-6 w-6"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="#ff0f10"
+      aria-hidden="true"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M6 18L18 6M6 6l12 12"
+      ></path>
+    </svg>
+  ) : (
+    <svg
+      className="block h-6 w-6"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="#000000"
+      aria-hidden="true"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M4 6h16M4 12h16M4 18h16"
+      ></path>
+    </svg>
+  )}
+</button>
+
           </div>
           <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
             <div className="flex-shrink-0">
-              <Link href="/" className="text-xl font-bold text-green-600">
+              <Link href="/" className="text-xl font-bold">
                 <Image className="w-[100px] h-[32px]" src={logo} width={100} height={100} alt="logo" />
               </Link>
             </div>
@@ -111,8 +130,8 @@ const Navbar = () => {
       </nav>
 
       {/* Mobile menu */}
-      <div className={`${isOpen ? "block" : "hidden"} sm:hidden`} id="mobile-menu">
-        <div className="px-2 pt-2 pb-3 flex flex-col items-start justify-start space-y-1 sm:px-3">
+      <div className={`${isOpen ? "block" : "hidden"} ${isOpen ? "slide-down" : "slide-up"} sm:hidden`} id="mobile-menu">
+        <div className="px-2 pt-2 pb-3 flex flex-col items-center justify-start space-y-4 sm:px-3">
 
           {user?.status === 'active' && user.role !== "admin" && <Link href="/lessons" className={getLinkClass("/lessons")}>Lessons</Link>}
           {user?.status === 'active' && user.role !== "admin" && <Link href="/tutorials" className={getLinkClass("/tutorials")}>Tutorials</Link>}

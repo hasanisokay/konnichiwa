@@ -37,6 +37,38 @@ input {
 white-space: pre-wrap;
 word-break: break-word;
 }
+
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}
+
+.slide-down {
+  animation: slideDown 0.5s ease-out forwards;
+}
+
+.slide-up {
+  animation: slideUp 0.5s ease-in forwards;
+}
+
 /* @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;

@@ -12,8 +12,8 @@ const UserTutorialList = ({ t }) => {
             <h1 className="text-2xl font-bold text-center mb-6">Tutorial List</h1>
             <div className="grid gap-4">
                 {t?.map((tutorial) => (
-                    <div key={tutorial._id} className="bg-white shadow-md rounded-lg p-4">
-                        <h2 className="text-lg font-semibold mb-2">{tutorial.title}</h2>
+                    <div key={tutorial._id} className="bg-white dark:bg-[#4c4c4c] shadow-md rounded-lg p-4">
+                        <h2 className="text-lg font-semibold mb-2 ">{tutorial.title}</h2>
                         <div className="flex gap-4">
                             <button
                                 onClick={() => openInModal(tutorial)}
