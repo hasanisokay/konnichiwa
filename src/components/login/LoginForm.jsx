@@ -41,12 +41,20 @@ const LoginForm = ({ redirectTo }) => {
         const response = await res.json();
 
         if (response.status === 200) {
+            const role = response.data.role;
             toast.success(`${response?.message}`, {
                 position: "top-right",
                 autoClose: 1000
             });
             dispatch(setUserData(response.data));
-            router.replace("/");
+            if (role === "user") {
+                window.location.href = "/lessons";
+
+            } else if (role === "admin") {
+                window.location.href = "/admin";
+            }
+
+
         } else {
             toast.error(`${response?.message || response?.error}`, {
                 position: "top-center",
