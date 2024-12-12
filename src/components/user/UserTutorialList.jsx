@@ -35,17 +35,18 @@ const UserTutorialList = ({ t }) => {
             </div>
 
             {selectedTutorial && (
-                <div onClick={closeModal} className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                    <div className=" rounded-lg shadow-lg w-[80%] h-[80%] lg:w-[50%] lg:h-[50%] md:w-[60%] md:h-[60%] p-6 relative">
-                        <div className="w-full aspect-video">
+                <div className="fixed bg-black inset-0 flex items-center justify-center  bg-opacity-70 z-50">
+                    <div className=" rounded-xl  w-[80%] h-[80%] lg:w-[50%] lg:h-[50%] md:w-[60%] md:h-[60%] p-6 relative">
+                        <div className="w-full aspect-video relative">
                             <iframe
                                 src={selectedTutorial.url.replace("watch?v=", "embed/") + "?autoplay=1"}
                                 title={selectedTutorial.title}
-                                className="w-full h-full border rounded-lg"
+                                className="w-full h-full rounded-xl"
                                 allow="autoplay; encrypted-media; picture-in-picture"
                                 allowFullScreen
                             ></iframe>
-
+                            
+<button className="text-white absolute top-0 right-0 p-2 bg-red-500 rounded-lg" onClick={closeModal} >Close</button>
                         </div>
                     </div>
                 </div>
