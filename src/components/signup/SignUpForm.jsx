@@ -70,7 +70,7 @@ const SignUpForm = () => {
     const onSubmit = async (data) => {
         const isEmailAvailable = await checkEmailAvailability(data?.email);
         if (!isEmailAvailable) return;
-        const file = data.photoUrl ? data.photoUrl[0] : null;
+        const file = data?.photoUrl ? data?.photoUrl[0] : null;
         if (!file) {
             return toast.error('Select Image File', {
                 position: "top-center",

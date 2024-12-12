@@ -13,7 +13,8 @@ const AdminDashboard = ({ d }) => {
             {/* Greeting Section */}
             <div className="bg-gradient-to-r from-blue-500 to-teal-400 p-6 rounded-lg shadow-lg text-white flex items-center space-x-6">
                 <Image
-                    src={user.photoUrl || defaultAvatarLink} 
+                priority={true}
+                    src={user?.photoUrl || defaultAvatarLink} 
                     alt="User Photo" 
                     width={100}
                     height={100}
