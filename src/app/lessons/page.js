@@ -25,7 +25,7 @@ const userLessonPage = async ({ searchParams }) => {
   if (!lessons) return <NotFound />;
   return (
     <>
-      <UserLessonPage previousProgress={progress} l={lessons} />
+      <UserLessonPage p={progress} l={lessons} />
     </>
   );
 };

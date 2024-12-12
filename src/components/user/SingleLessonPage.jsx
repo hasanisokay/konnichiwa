@@ -14,6 +14,8 @@ const SingleLessonPage = ({ l }) => {
     const router = useRouter();
     const user = useSelector((state) => state.user.userData);
     const audioRef = useRef();
+
+    const [loading,setLoading] = useState(false);
     const [lessonData, setLessonData] = useState(l[0] || {});
     const [currentIndex, setCurrentIndex] = useState(0);
     const [showComplete, setShowComplete] = useState(false);
@@ -26,6 +28,8 @@ const SingleLessonPage = ({ l }) => {
     }, [l]);
 
     const handleComplete = async () => {
+        if(loading) return;
+        setLoading(true)
         const res = await fetch("/api/posts/save-progress", {
             method: "POST",
             headers: {
@@ -51,9 +55,10 @@ const SingleLessonPage = ({ l }) => {
         document.body.style.overflow = "hidden";
 
         setTimeout(() => {
-            setShowConfetti(false);
-            document.body.style.overflow = "";
+            setLoading(false)
+            // setShowConfetti(false);
             router.push("/lessons");
+            // document.body.style.overflow = "";
         }, 5000);
     };
 
@@ -99,7 +104,7 @@ const SingleLessonPage = ({ l }) => {
                     ))}
                 </Swiper>
 
-                <div className="flex justify-center mt-6 space-x-4">
+             {!showConfetti &&    <div className="flex justify-center mt-6 space-x-4">
                     <button
                         onClick={() => {
                             const swiper = document.querySelector(".swiper").swiper;
@@ -129,7 +134,7 @@ const SingleLessonPage = ({ l }) => {
                         </button>
                     }
 
-                </div>
+                </div>}
 
             </div>
         </div>

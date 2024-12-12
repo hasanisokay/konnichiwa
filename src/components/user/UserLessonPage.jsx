@@ -4,13 +4,31 @@ import { useSelector } from "react-redux";
 import Image from "next/image";
 import { defaultAvatarLink } from "@/constants/constantNames.mjs";
 import Link from "next/link";
+import { toast } from "react-toastify";
 
-const UserLessonPage = ({ l, previousProgress }) => {
+const UserLessonPage = ({ l, p }) => {
+    const [previousProgress,setPreviousProgress] = useState(p)
     const user = useSelector(state => state.user.userData);
     const [allLessons, setAllLessons] = useState(l);
     const [totalWords, setTotalWords] = useState(0);
     const [learnedWords, setLearnedWords] = useState(0);
+    const resetProgress = async () => {
+        const res = await fetch("/api/puts/reset-progress", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ userEmail: user?.email }),
+        })
+        const data = await res.json();
+        if (data?.status === 200) {
+            toast.success(data?.message);
+            setPreviousProgress([])
+        }else{
+            toast.error(data?.message)
+        }
 
+    }
     useEffect(() => {
         setAllLessons(l);
 
@@ -35,7 +53,10 @@ const UserLessonPage = ({ l, previousProgress }) => {
 
             {/* Progress Bar */}
             <div className="mb-6">
+
                 <h2 className="text-xl font-medium text-gray-700 dark:text-white mb-1">Overall Progress</h2>
+                {previousProgress?.length > 0 && <div onClick={() => resetProgress()} className="text-right"><button>Reset</button></div>}
+
                 <div className="w-full bg-gray-200 h-2 rounded-lg">
                     <div
                         className="bg-blue-500 h-2 rounded-lg"
@@ -47,6 +68,7 @@ const UserLessonPage = ({ l, previousProgress }) => {
                 <p className="text-center mt-2 text-gray-500 dark:text-gray-300">
                     {learnedWords}/{totalWords} vocabularies learned ({parseInt((learnedWords / totalWords) * 100)}%)
                 </p>
+
             </div>
 
             {/* Lessons List */}
