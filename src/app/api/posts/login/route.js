@@ -59,7 +59,7 @@ export const POST = async (req) => {
       httpOnly: true,
       sameSite: "strict",
       secure: process.env.NODE_ENV === "production",
-      maxAge: 24 * 60 * 60 * 365,
+      maxAge: 24 * 60 * 60 * 7,
     });
     delete user.password;
     return successResponse(user, "Login Success.");

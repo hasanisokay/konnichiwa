@@ -1,5 +1,5 @@
 'use client'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,6 +8,7 @@ import logOut from "@/utils/logOut.mjs";
 import Image from "next/image";
 // import logo from "/images/logo.png"
 import logo from "@/../public/images/logo-2.png"
+import revalidateToken from "@/server-funcitons/revalidateToken.mjs";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const currentPath = usePathname()
@@ -18,6 +19,12 @@ const Navbar = () => {
     logOut()
     route.replace(`/login?redirectTo=${currentPath}`)
   }
+  useEffect(() => {
+    (async () => {
+      if (!user) return;
+      await revalidateToken()
+    })()
+  }, [])
   const getLinkClass = (p) => {
     let path = p;
     return path === currentPath

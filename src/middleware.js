@@ -19,7 +19,6 @@ export async function middleware(request) {
     loginUrl.searchParams.set("redirectTo", pathName);
     return NextResponse.redirect(loginUrl);
   }
-
   if (pathName.includes("/admin") && token) {
     const payload = await verifyToken(token);
     if (!payload || payload.role !== "admin") {
@@ -29,14 +28,20 @@ export async function middleware(request) {
       return NextResponse.redirect(loginUrl);
     }
   }
-  if(token && !pathName.includes("/admin") && pathName !=="/" && pathName !=="/profile" && !pathName.includes("/api")){
+  if (
+    token &&
+    !pathName.includes("/admin") &&
+    pathName !== "/" &&
+    pathName !== "/profile" &&
+    !pathName.includes("/api")
+  ) {
     const payload = await verifyToken(token);
     if (payload.role === "admin") {
       const loginUrl = new URL("/admin", request.url);
       return NextResponse.redirect(loginUrl);
     }
   }
-  if (token && pathName ==="/") {
+  if (token && pathName === "/") {
     const payload = await verifyToken(token);
     if (payload.role === "admin") {
       const loginUrl = new URL("/admin", request.url);
@@ -46,6 +51,7 @@ export async function middleware(request) {
       return NextResponse.redirect(loginUrl);
     }
   }
+
 
   return NextResponse.next();
 }

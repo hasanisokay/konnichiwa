@@ -101,11 +101,11 @@ const AdminVocabularyList = ({ v }) => {
           {memorizedVocabularies.map((vocabulary) => (
             <div
               key={vocabulary._id}
-              className="bg-white rounded-lg shadow-md p-6 flex flex-col justify-between"
+              className="bg-white dark:bg-gray-600 rounded-lg shadow-md p-6 flex flex-col justify-between"
             >
               <div className='space-y-2'>
                 <h2
-                  className="text-lg font-semibold break-words text-gray-800 mb-2"
+                  className="text-lg font-semibold break-words text-gray-800 dark:text-white mb-2"
                   title={vocabulary.word}
                 >
                   {vocabulary.word}
@@ -113,22 +113,22 @@ const AdminVocabularyList = ({ v }) => {
                     clickHandler={() => speakWord(vocabulary.word)}
                   />
                 </h2>
-                <p className="text-gray-600" >
+                <p className="text-gray-600 dark:text-white" >
                   <span className="font-medium">Meaning:</span> {vocabulary.meaning}
                   <SpeakerIcon
                     clickHandler={() => speakWord(vocabulary.meaning, 'en-US')}
                   />
                 </p>
-                <p className="text-gray-600">
+                <p className="text-gray-600 dark:text-white">
                   <span className="font-medium">Pronunciation:</span> {vocabulary.pronunciation}
                 </p>
-                <p className="text-gray-600">
+                <p className="text-gray-600 dark:text-white">
                   <span className="font-medium">When to Say:</span> {vocabulary.whenToSay}
                 </p>
-                <p className="text-gray-600">
+                <p className="text-gray-600 dark:text-white">
                   <span className="font-medium">Lesson No:</span> {vocabulary.lessonNumber}
                 </p>
-                <p className="text-gray-600">
+                <p className="text-gray-600 dark:text-white">
                   <span className="font-medium">Added by:</span> {vocabulary.adminEmail}
                 </p>
               </div>
@@ -223,13 +223,13 @@ const AdminVocabularyList = ({ v }) => {
               </div>
             </div>
             <div>
-              <label className="block mb-2 text-sm font-medium text-gray-700">When to Say</label>
+              <label className="block mb-2 text-sm font-medium text-gray-700 ">When to Say</label>
               <textarea
                 value={selectedVocabulary.whenToSay}
                 onChange={(e) =>
                   setSelectedVocabulary({ ...selectedVocabulary, whenToSay: e.target.value })
                 }
-                className="w-full border border-gray-300 rounded-lg p-2 mb-4"
+                className="w-full border border-gray-300 text-black rounded-lg p-2 mb-4"
               />
             </div>
             <div>
@@ -237,7 +237,7 @@ const AdminVocabularyList = ({ v }) => {
               <LessonSelector changeHandler={(e) =>
                   setSelectedVocabulary({ ...selectedVocabulary, lessonNumber: e.value })} />
             </div>
-            <div className="flex justify-end space-x-4">
+            <div className="flex justify-end space-x-4 mt-4">
               <button
                 className="bg-gray-500 text-white px-4 py-2 rounded-lg"
                 onClick={() => setIsEditing(false)}

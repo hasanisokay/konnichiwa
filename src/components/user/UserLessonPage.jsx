@@ -41,14 +41,14 @@ const UserLessonPage = ({ l, p }) => {
         setTotalWords(total);
         setLearnedWords(learned);
     }, [l, previousProgress]);
-
+ 
     return (
         <div className="container mx-auto px-4 py-6">
             {/* Welcome Screen */}
             <div className="text-center mb-8">
                 <h1 className="text-3xl font-semibold text-blue-500">Welcome, {user?.name}!</h1>
                 <p className="text-xl mt-2 text-gray-600 dark:text-gray-200">Let&#39;s start learning!</p>
-                <Image src={user?.photoUrl || defaultAvatarLink} width={100} height={100} alt="User Avatar" className="w-20 h-20 rounded-full mx-auto mt-4" />
+                <Image 	priority={true} src={user.photoUrl || defaultAvatarLink} width={100} height={100} alt="User Avatar" className="w-20 h-20 rounded-full mx-auto mt-4" />
             </div>
 
             {/* Progress Bar */}
@@ -75,7 +75,7 @@ const UserLessonPage = ({ l, p }) => {
             <h2 className="text-xl font-medium text-gray-700 dark:text-white mb-4">Available Lessons</h2>
             <div className="space-y-6">
                 {allLessons.map((lesson) => (
-                    <div key={lesson.lessonNumber} className="flex items-center justify-between bg-white dark:bg-[#4c4c4c] p-6 rounded-lg shadow-lg">
+                    <div key={lesson._id} className="flex items-center justify-between bg-white dark:bg-[#4c4c4c] p-6 rounded-lg shadow-lg">
                         <div>
                             <h3 className="text-2xl font-semibold text-gray-800 dark:text-white">{lesson.lessonName}</h3>
                             <p className="text-lg text-gray-600 dark:text-white">Lesson {lesson.lessonNumber}</p>

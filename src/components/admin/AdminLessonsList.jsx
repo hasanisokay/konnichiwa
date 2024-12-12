@@ -101,16 +101,18 @@ const AdminLessonsList = ({ lessons: l }) => {
     };
 
     return (
-        <div className="bg-gray-50 p-2 md:p-8 ">
+        <div className="bg-gray-50 p-2 md:p-8 text-black ">
             <h1 className="text-2xl md:text-3xl font-bold text-gray-700 mb-6 ">Lessons</h1>
-            <div className="bg-white shadow-lg rounded-lg p-0 md:p-6">
+            <div className="bg-white shadow-lg rounded-lg ">
                 {savedLessons?.length === 0 ? (
                     <p className="text-gray-500 text-center">No lessons available.</p>
                 ) : (
                     <div className="overflow-x-auto">
                     <table className="table-auto w-full text-sm md:text-base border border-gray-300">
                         <thead>
-                            <tr className="bg-gray-100">
+                   
+
+                            <tr className='bg-gray-300 dark:bg-gray-900 text-black dark:text-white p-2 text-left'>
                                 <th className="border border-gray-300 p-3 text-left max-w-[200px] break-words">
                                     Lesson Name
                                 </th>
@@ -129,8 +131,8 @@ const AdminLessonsList = ({ lessons: l }) => {
                             {savedLessons?.map((lesson) => (
                                 <tr
                                     key={lesson._id}
-                                    className="hover:bg-gray-50 even:bg-gray-50"
-                                >
+                                    className="border-b dark:text-white odd:bg-gray-100 dark:odd:bg-gray-800 even:bg-white dark:even:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600"
+                                    >
                                     <td className="border border-gray-300 p-3 whitespace-normal break-words">
                                         {lesson.lessonName}
                                     </td>
@@ -140,15 +142,15 @@ const AdminLessonsList = ({ lessons: l }) => {
                                     <td className="border border-gray-300 p-3">
                                         {lesson.vocabSize}
                                     </td>
-                                    <td className="border border-gray-300 p-3 text-center">
+                                    <td className="border border-gray-300 p-3 font-semibold text-center">
                                         <button
-                                            className="text-blue-600 hover:text-blue-800 transition"
+                                            className="text-blue-600 dark:text-blue-300 hover:text-blue-800 transition"
                                             onClick={() => handleEdit(lesson)}
                                         >
                                             Edit
                                         </button>
                                         <button
-                                            className="text-red-600 hover:text-red-800 ml-4 transition"
+                                            className="text-red-600 dark:text-[#ff0f10] hover:text-red-800 ml-4 transition"
                                             onClick={() => handleDelete(lesson)}
                                         >
                                             Delete
