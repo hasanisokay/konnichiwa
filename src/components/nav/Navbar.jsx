@@ -5,7 +5,9 @@ import { usePathname, useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleTheme } from "@/store/slices/themeSlice";
 import logOut from "@/utils/logOut.mjs";
-
+import Image from "next/image";
+// import logo from "/images/logo.png"
+import logo from "@/../public/images/logo-2.png"
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const currentPath = usePathname()
@@ -19,8 +21,8 @@ const Navbar = () => {
   const getLinkClass = (p) => {
     let path = p;
     return path === currentPath
-      ? "text-white bg-gray-700 px-2 py-[1px] rounded-md text-sm font-medium"
-      : "dark:text-white text-black dark:hover:text-white px-2 py-[1px] rounded-md text-sm font-medium";
+      ? "md:text-white text-green-500 md:bg-gray-700 md:px-2 md:py-[1px] rounded-md text-sm font-medium"
+      : "dark:text-white text-black dark:hover:text-white md:px-2 md:py-[1px] rounded-md text-sm font-medium";
   };
   const dispatch = useDispatch();
   const theme = useSelector(state => state.theme.mode)
@@ -89,16 +91,14 @@ const Navbar = () => {
           </div>
           <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
             <div className="flex-shrink-0">
-              <Link href="/" className="text-xl font-bold text-white">
-                Logo
+              <Link href="/" className="text-xl font-bold text-green-600">
+                <Image className="w-[100px] h-[32px]" src={logo} width={100} height={100} alt="logo" />
               </Link>
             </div>
             <div className="hidden sm:block sm:ml-6">
               <div className="flex space-x-4">
-                {/* <Link href="/" className={getLinkClass("/")}>Home</Link> */}
-                {user?.status === 'active' && user.role !=="admin" && <Link href="/lessons" className={getLinkClass("/lessons")}>Lessons</Link>}
-                {user?.status === 'active' && user.role !=="admin" && <Link href="/tutorials" className={getLinkClass("/tutorials")}>Tutorials</Link>}
-                {/* {user?.status === 'active' && <Link href="/profile" className={getLinkClass("/profile")}>Profile</Link>} */}
+                {user?.status === 'active' && user.role !== "admin" && <Link href="/lessons" className={getLinkClass("/lessons")}>Lessons</Link>}
+                {user?.status === 'active' && user.role !== "admin" && <Link href="/tutorials" className={getLinkClass("/tutorials")}>Tutorials</Link>}
                 {user?.role === 'admin' && <Link href="/admin" className={getLinkClass("/admin")}>Admin</Link>}
                 {user && <div className="dark:text-white text-black px-2 py-[1px] rounded-md text-sm font-medium">
                   <button className="" onClick={handleLogOut}>Log Out</button>
@@ -112,20 +112,14 @@ const Navbar = () => {
 
       {/* Mobile menu */}
       <div className={`${isOpen ? "block" : "hidden"} sm:hidden`} id="mobile-menu">
-        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-          {/* <Link href="/" className={getLinkClass("/")}>Home</Link> */}
-          <div className={`${getLinkClass("/members")} ${getLinkClass("/members/new")} flex gap-4 `}>
-            <Link href="/members">
-              Members
-            </Link>
-            <Link href="/members/new">
-              +
-            </Link>
-          </div>
-          <Link href="/about" className={getLinkClass("/about")}>About</Link>
-          <Link href="/services" className={getLinkClass("/services")}>Services</Link>
-          <Link href="/contact" className={getLinkClass("/contact")}>Contact</Link>
-          {user && <button className="text-gray-300 hover:text-white px-2 py-[1px] rounded-md text-sm font-medium" onClick={handleLogOut}>Log Out</button>}
+        <div className="px-2 pt-2 pb-3 flex flex-col items-start justify-start space-y-1 sm:px-3">
+
+          {user?.status === 'active' && user.role !== "admin" && <Link href="/lessons" className={getLinkClass("/lessons")}>Lessons</Link>}
+          {user?.status === 'active' && user.role !== "admin" && <Link href="/tutorials" className={getLinkClass("/tutorials")}>Tutorials</Link>}
+          {user?.role === 'admin' && <Link href="/admin" className={getLinkClass("/admin")}>Admin</Link>}
+          {user && <div className="dark:text-white text-black rounded-md text-sm font-medium">
+            <button className="" onClick={handleLogOut}>Log Out</button>
+          </div>}
           {themeSwitch}
         </div>
       </div>
