@@ -2,7 +2,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'react-toastify';
-import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { setUserData } from "@/store/slices/authSlice";
 import { z } from "zod";
@@ -27,7 +26,6 @@ const LoginForm = ({ redirectTo }) => {
         resolver: zodResolver(loginSchema),
     });
     const dispatch = useDispatch();
-    const router = useRouter();
 
     // Submit handler
     const onSubmit = async (data) => {

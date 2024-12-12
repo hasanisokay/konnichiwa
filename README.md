@@ -1,36 +1,27 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Konnichiwa - Learn Japanese
 
-## Getting Started
+Welcome to **Konnichiwa**, a platform designed to help you learn Japanese in a fun and interactive way! Whether you're a beginner or looking to enhance your skills, Konnichiwa offers a variety of lessons, tutorials, and vocabulary resources to guide you on your language learning journey.
 
-First, run the development server:
+## Live Demo
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+You can try out the platform here: [Konnichiwa Live](https://konnichiwa.vercel.app/)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Admin Credentials for Testing
+- **Email**: tester@konnichiwa.com
+- **Password**: k123456
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Features
 
-## Learn More
+- **Lessons**: Explore structured lessons designed to build your understanding of the Japanese language from the ground up.
+- **Tutorials**: In-depth tutorials covering grammar, vocabulary, pronunciation, and more.
+- **Vocabulary**: An ever-expanding library of words and phrases to help you master essential Japanese vocabulary.
+- **Admin Dashboard**: For admins to manage lessons, tutorials, users, and other platform content.
 
-To learn more about Next.js, take a look at the following resources:
+## Technologies Used
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Next.js**: A powerful React framework for building fast, static, and dynamic web applications.
+- **Tailwind CSS**: A utility-first CSS framework to build custom designs quickly.
+- **React**: A JavaScript library for building user interfaces.
+- **Vercel**: A cloud platform for deploying Next.js applications.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
