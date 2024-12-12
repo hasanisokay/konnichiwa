@@ -19,3 +19,11 @@ const adminPage = async () => {
 };
 
 export default adminPage;
+
+
+export async function generateMetadata() {
+  return  {
+    title: "Konnichiwa | Admin Dashboard",
+    description: "Manage and oversee the platform's content and users."
+  }
+}

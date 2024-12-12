@@ -33,3 +33,13 @@ const adminLessonPage = async ({ searchParams }) => {
 };
 
 export default adminLessonPage;
+
+
+
+export async function generateMetadata() {
+  return {
+    title: "Konnichiwa | Lessons",
+    description: "Explore a variety of Japanese lessons tailored for every level of language learners."
+  }
+}
+

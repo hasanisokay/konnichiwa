@@ -32,3 +32,10 @@ const manaeUsersPage = async ({searchParams}) => {
 };
 
 export default manaeUsersPage;
+
+export async function generateMetadata() {
+  return {
+    title: "Konnichiwa | Manage Users",
+    description: "Oversee user accounts and manage permissions efficiently."
+  }
+}

@@ -31,3 +31,11 @@ const adminVocabularyPage = async({ searchParams }) => {
 };
 
 export default adminVocabularyPage;
+
+
+export async function generateMetadata() {
+  return {
+    title: "Konnichiwa | Vocabularies",
+    description: "Browse and learn from an extensive library of Japanese words."
+  }
+}

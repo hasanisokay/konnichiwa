@@ -15,3 +15,11 @@ const loginPage = async ({ searchParams }) => {
 };
 
 export default loginPage;
+
+
+export async function generateMetadata() {
+    return {
+        title: "Konnichiwa | Login",
+        description: "Log in to your Konnichiwa account to continue learning Japanese and access your lessons."
+      }
+  }

@@ -48,7 +48,7 @@ const UserLessonPage = ({ l, p }) => {
             <div className="text-center mb-8">
                 <h1 className="text-3xl font-semibold text-blue-500">Welcome, {user?.name}!</h1>
                 <p className="text-xl mt-2 text-gray-600 dark:text-gray-200">Let&#39;s start learning!</p>
-                <Image 	priority={true} src={user.photoUrl || defaultAvatarLink} width={100} height={100} alt="User Avatar" className="w-20 h-20 rounded-full mx-auto mt-4" />
+                <Image 	priority={true} src={user?.photoUrl || defaultAvatarLink} width={100} height={100} alt="User Avatar" className="w-20 h-20 rounded-full mx-auto mt-4" />
             </div>
 
             {/* Progress Bar */}

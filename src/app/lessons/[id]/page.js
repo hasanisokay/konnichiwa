@@ -17,3 +17,11 @@ const singleLessonPage = async ({ params }) => {
 };
 
 export default singleLessonPage;
+
+export async function generateMetadata({ params }) {
+  const lessonNumber = (await params)?.id ||"";
+  return {
+    title: `Konnichiwa | Lesson ${lessonNumber}`,
+    description: `Dive into Lesson ${lessonNumber} to enhance your Japanese language skills with tailored content and exercises.`,
+  };
+}

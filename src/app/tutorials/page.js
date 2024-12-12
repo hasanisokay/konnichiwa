@@ -33,3 +33,10 @@ const adminTutorialsPage = async ({ searchParams }) => {
 };
 
 export default adminTutorialsPage;
+
+export async function generateMetadata() {
+  return {
+    title: "Konnichiwa | Tutorials",
+    description: "Access in-depth tutorials to master Japanese effectively."
+  }
+}
