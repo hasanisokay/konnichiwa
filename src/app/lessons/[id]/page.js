@@ -1,5 +1,6 @@
 import NotFound from "@/components/not-found/NotFound";
 import SingleLessonPage from "@/components/user/SingleLessonPage";
+import getProgress from "@/server-funcitons/getProgress.mjs";
 import getLessonsWithVocabs from "@/utils/getLessonsWithVocabs.mjs";
 
 const singleLessonPage = async ({ params }) => {
@@ -8,7 +9,11 @@ const singleLessonPage = async ({ params }) => {
   if (l?.data?.lessons?.length === 0 || !l?.data) {
     return <NotFound />;
   }
-  return <SingleLessonPage l={l?.data?.lessons || []} />;
+
+
+  return (
+    <SingleLessonPage  l={l?.data?.lessons || []} />
+  );
 };
 
 export default singleLessonPage;

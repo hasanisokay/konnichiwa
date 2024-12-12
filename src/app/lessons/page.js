@@ -1,6 +1,6 @@
 import NotFound from "@/components/not-found/NotFound";
-import PaginationDefault from "@/components/pagination/PaginationDefault";
 import UserLessonPage from "@/components/user/UserLessonPage";
+import getProgress from "@/server-funcitons/getProgress.mjs";
 import getLessons from "@/utils/getLessons.mjs";
 
 const userLessonPage = async ({ searchParams }) => {
@@ -10,10 +10,12 @@ const userLessonPage = async ({ searchParams }) => {
   const keyword = (await searchParams)?.keyword || "";
   let lessons;
   let totalCount;
+  let progress 
   try {
     const d = await getLessons(page, 1000000, sort, keyword);
     lessons = d?.lessons;
     totalCount = d?.totalCount || 0;
+    progress = await getProgress();
   } catch (error) {
     console.log(error);
     lessons = null;
@@ -23,7 +25,7 @@ const userLessonPage = async ({ searchParams }) => {
   if (!lessons) return <NotFound />;
   return (
     <>
-      <UserLessonPage l={lessons} />
+      <UserLessonPage previousProgress={progress} l={lessons} />
     </>
   );
 };
