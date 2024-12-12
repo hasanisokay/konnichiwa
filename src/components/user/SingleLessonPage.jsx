@@ -5,8 +5,11 @@ import Confetti from "react-confetti";
 import "./animation.css"
 import SpeakerIcon from "../svg/SpeakerIcon";
 import speakWord from "@/utils/speakWord.mjs";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 const SingleLessonPage = ({ l }) => {
     const router = useRouter();
+    const user = useSelector(state => state.user.userData)
     const audioRef = useRef();
     const [lessonData, setLessonData] = useState(l[0] || {});
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -43,7 +46,24 @@ const SingleLessonPage = ({ l }) => {
         }
     };
 
-    const handleComplete = () => {
+    const handleComplete = async () => {
+        const res = await fetch('/api/posts/save-progress', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ learnedLesson: lessonData.lessonNumber, email: user.email }),
+            credentials: 'include'
+        })
+        const data = await res.json();
+        console.log(data)
+        if (data.status === 200 || data.status === 204) {
+            toast.success(data.message, {
+                autoClose: 1000,
+                position: 'top-center'
+            })
+        }
+
         if (audioRef.current) {
             audioRef.current.play();
         }
@@ -72,7 +92,7 @@ const SingleLessonPage = ({ l }) => {
                             {vocab.word}
                         </h3>
                         <p className="text-sm text-gray-600 mt-2">
-                           Meaning: {vocab.meaning}
+                            Meaning: {vocab.meaning}
                             <SpeakerIcon
                                 clickHandler={() => speakWord(vocab.meaning, 'en-US')}
                             />

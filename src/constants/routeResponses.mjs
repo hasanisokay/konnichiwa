@@ -7,6 +7,14 @@ export const serverErrorResponse = (message = "Internal Server Error") => {
 export const successResponse = (data = {}, message = "Request successful") => {
   return NextResponse.json({ message, data, status: 200 });
 };
+export const noChangesMadeResponse = (
+  message = "No documents matched the query or no update was made."
+) => {
+  return NextResponse.json({
+    message,
+    status: 204,
+  });
+};
 
 export const badRequestResponse = (
   message = "Bad Request",
