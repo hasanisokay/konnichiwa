@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import formatDate from "@/utils/formatDate.mjs";
 import { useState, useMemo, useEffect } from "react";
@@ -6,41 +6,48 @@ import { toast } from "react-toastify";
 
 const TutorialsList = ({ t }) => {
     const [tutorials, setTutorials] = useState(t);
+    const [showModal, setShowModal] = useState(false);
+    const [selectedTutorial, setSelectedTutorial] = useState(null);
+
     useEffect(() => {
-        setTutorials(t)
-    }, [t])
-    const handleDelete = async (tutorialId) => {
-        const confirmed = window.confirm("Are you sure you want to delete this tutorial?");
+        setTutorials(t);
+    }, [t]);
 
-        if (confirmed) {
-            try {
-                const res = await fetch('/api/deletes/delete-tutorial', {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ tutorialId }),
-                });
+    const handleDelete = async () => {
+        if (!selectedTutorial) return;
 
-                const data = await res.json();
+        try {
+            const res = await fetch('/api/deletes/delete-tutorial', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ tutorialId: selectedTutorial._id }),
+            });
 
-                if (res.ok) {
-                    setTutorials((prevTutorials) =>
-                        prevTutorials.filter((tutorial) => tutorial._id !== tutorialId)
-                    );
-                    toast.success(data.message || 'Tutorial deleted successfully!');
-                } else {
-                    toast.error(data.message || 'Failed to delete tutorial.');
-                }
-            } catch (error) {
-                console.error('Error deleting tutorial:', error);
-                toast.error('An error occurred while deleting the tutorial.');
+            const data = await res.json();
+
+            if (res.ok) {
+                setTutorials((prevTutorials) =>
+                    prevTutorials.filter((tutorial) => tutorial._id !== selectedTutorial._id)
+                );
+                toast.success(data.message || 'Tutorial deleted successfully!');
+            } else {
+                toast.error(data.message || 'Failed to delete tutorial.');
             }
-        } else {
-            toast.info("Tutorial deletion was canceled.");
+        } catch (error) {
+            console.error('Error deleting tutorial:', error);
+            toast.error('An error occurred while deleting the tutorial.');
+        } finally {
+            setShowModal(false);
+            setSelectedTutorial(null);
         }
     };
 
+    const confirmDelete = (tutorial) => {
+        setSelectedTutorial(tutorial);
+        setShowModal(true);
+    };
 
     const memoizedTutorials = useMemo(() => tutorials, [tutorials]);
 
@@ -48,7 +55,6 @@ const TutorialsList = ({ t }) => {
         <div className="max-w-3xl mx-auto mt-8 p-6 bg-white rounded-lg shadow-lg border border-gray-200">
             <h2 className="text-2xl font-semibold text-gray-800 mb-6">Tutorials</h2>
 
-            {/* Check if there's any tutorial */}
             {memoizedTutorials?.length === 0 ? (
                 <p className="text-center text-lg text-gray-500">No tutorials available</p>
             ) : (
@@ -56,7 +62,6 @@ const TutorialsList = ({ t }) => {
                     {memoizedTutorials.map((tutorial) => (
                         <div key={tutorial._id} className="bg-gray-50 p-4 rounded-lg shadow-sm border border-gray-300 hover:bg-gray-100 transition-all">
                             <div className="flex items-center justify-between">
-                                {/* Title */}
                                 <h3 className="text-xl font-bold text-gray-900">{tutorial.title}</h3>
                                 <a
                                     href={tutorial.url}
@@ -74,9 +79,8 @@ const TutorialsList = ({ t }) => {
                                 <span className="font-medium">Created on:</span> {formatDate(tutorial.createdOn)}
                             </p>
                             <div className="mt-4 flex justify-between items-center">
-                                {/* Delete Button */}
                                 <button
-                                    onClick={() => handleDelete(tutorial._id)}
+                                    onClick={() => confirmDelete(tutorial)}
                                     className="bg-red-600 text-white text-sm font-medium py-2 px-4 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
                                 >
                                     Delete
@@ -84,6 +88,32 @@ const TutorialsList = ({ t }) => {
                             </div>
                         </div>
                     ))}
+                </div>
+            )}
+
+            {showModal && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+                    <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+                        <h2 className="text-lg font-bold mb-4">Confirm Deletion</h2>
+                        <p className="text-gray-700 mb-6">
+                            Are you sure you want to delete the tutorial{" "}
+                            <strong>{selectedTutorial.title}</strong>?
+                        </p>
+                        <div className="flex justify-end space-x-4">
+                            <button
+                                className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600"
+                                onClick={() => setShowModal(false)}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700"
+                                onClick={handleDelete}
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    </div>
                 </div>
             )}
         </div>
