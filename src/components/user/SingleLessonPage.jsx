@@ -56,9 +56,10 @@ const SingleLessonPage = ({ l }) => {
 
         setTimeout(() => {
             setLoading(false)
+            document.body.style.overflow = "";
             // setShowConfetti(false);
-            router.push("/lessons");
-            // document.body.style.overflow = "";
+            // router.push("/lessons");
+            window.location.href = "/lessons";
         }, 5000);
     };
 
