@@ -66,7 +66,7 @@ const UserLessonPage = ({ l, p }) => {
                     />
                 </div>
                 <p className="text-center mt-2 text-gray-500 dark:text-gray-300">
-                    {learnedWords}/{totalWords} vocabularies learned ({parseInt((learnedWords / totalWords) * 100)}%)
+                    {learnedWords}/{totalWords} vocabularies learned ({parseInt((learnedWords / totalWords) * 100) || 0}%)
                 </p>
 
             </div>
@@ -75,17 +75,17 @@ const UserLessonPage = ({ l, p }) => {
             <h2 className="text-xl font-medium text-gray-700 dark:text-white mb-4">Available Lessons</h2>
             <div className="space-y-6">
                 {allLessons.map((lesson) => (
-                    <div key={lesson._id} className="flex items-center justify-between bg-white dark:bg-[#4c4c4c] p-6 rounded-lg shadow-lg">
+                    <div key={lesson?._id} className="flex items-center justify-between bg-white dark:bg-[#4c4c4c] p-6 rounded-lg shadow-lg">
                         <div>
-                            <h3 className="text-2xl font-semibold text-gray-800 dark:text-white">{lesson.lessonName}</h3>
-                            <p className="text-lg text-gray-600 dark:text-white">Lesson {lesson.lessonNumber}</p>
-                            <p className="text-sm text-gray-500 dark:text-white">{lesson.vocabSize} vocabularies</p>
+                            <h3 className="text-2xl font-semibold text-gray-800 dark:text-white">{lesson?.lessonName}</h3>
+                            <p className="text-lg text-gray-600 dark:text-white">Lesson {lesson?.lessonNumber}</p>
+                            <p className="text-sm text-gray-500 dark:text-white">{lesson?.vocabSize} vocabularies</p>
                         </div>
                         <Link
-                            href={`/lessons/${lesson.lessonNumber}`}
+                            href={`/lessons/${lesson?.lessonNumber}`}
                             className="inline-block py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200"
                         >
-                            {previousProgress.includes(lesson.lessonNumber) ? "Review" : "Start Learning"}
+                            {previousProgress.includes(lesson?.lessonNumber) ? "Review" : "Start Learning"}
                         </Link>
                     </div>
                 ))}

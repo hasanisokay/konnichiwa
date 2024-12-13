@@ -20,7 +20,7 @@ const AdminSidebar = () => {
     ];
 
     return (
-        <div className="relative md:static md:top-0 md:bottom-0  h-auto flex-shrink-0 md:w-64 max-w-full w-full md:bg-gray-800 bg-background/95 bg-white backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
+        <div className="relative z-50 md:static md:top-0 md:bottom-0  h-auto flex-shrink-0 md:w-64 max-w-full w-full md:bg-gray-800 bg-background/95 bg-white backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
 
             {/* Toggle Button */}
             <button
